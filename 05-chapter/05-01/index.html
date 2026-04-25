@@ -1,0 +1,498 @@
+<!DOCTYPE html>
+<html lang="el">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title><!-- SECTION_TITLE --> — Φυσική Γ΄ Γυμνασίου</title>
+<style>
+  /* =====================================================
+     ΟΔΗΓΙΕΣ ΠΡΟΣΑΡΜΟΓΗΣ
+     =====================================================
+     1. Άλλαξε το --chapter-color με το χρώμα του κεφαλαίου
+     2. Συμπλήρωσε τα CHAPTER_* και SECTION_* placeholders
+     3. Συμπλήρωσε τα αρχεία στα αντίστοιχα <ul> sections
+     4. Διέγραψε sections που δεν χρειάζεσαι
+     =====================================================
+
+     ΧΡΩΜΑΤΑ ΚΕΦΑΛΑΙΩΝ (από template.tex):
+       Κεφ. 1: #3498DB  (Μπλε)
+       Κεφ. 2: #2ECC71  (Πράσινο)
+       Κεφ. 3: #E74C3C  (Κόκκινο)
+       Κεφ. 4: #9B59B6  (Μοβ)
+       Κεφ. 5: #F1C40F  (Κίτρινο)  → text: #7a6200
+       Κεφ. 6: #E67E22  (Πορτοκαλί)
+       Κεφ. 7: #1ABC9C  (Τιρκουάζ)
+       Κεφ. 8: #EC7063  (Κοραλί)
+  ===================================================== */
+
+  :root {
+    --chapter-color: #3498DB; /* ← ΑΛΛΑΞΕ ΕΔΩ */
+    --chapter-color-dark: color-mix(in srgb, var(--chapter-color) 75%, #000);
+    --chapter-color-light: color-mix(in srgb, var(--chapter-color) 12%, #fff);
+    --chapter-color-text: #fff; /* για κίτρινο κεφ.5 βάλε #7a6200 */
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+    background: #f0f2f5;
+    color: #1a1a2e;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* ── HEADER ── */
+  .header {
+    background: var(--chapter-color);
+    color: var(--chapter-color-text);
+    padding: 2rem 1.5rem 1.75rem;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .header::before {
+    content: '';
+    position: absolute;
+    right: -60px; top: -60px;
+    width: 220px; height: 220px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.08);
+    pointer-events: none;
+  }
+
+  .header::after {
+    content: '';
+    position: absolute;
+    right: 40px; bottom: -80px;
+    width: 160px; height: 160px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.05);
+    pointer-events: none;
+  }
+
+  .breadcrumb {
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    opacity: 0.75;
+    margin-bottom: 0.5rem;
+    position: relative;
+  }
+
+  .header h1 {
+    font-size: clamp(1.2rem, 4vw, 1.6rem);
+    font-weight: 600;
+    line-height: 1.3;
+    position: relative;
+  }
+
+  .header-meta {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-top: 0.75rem;
+    position: relative;
+  }
+
+  .badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    background: rgba(255,255,255,0.18);
+    border-radius: 20px;
+    padding: 3px 10px;
+    font-size: 11px;
+    font-weight: 500;
+  }
+
+  /* ── MAIN CONTENT ── */
+  main {
+    flex: 1;
+    padding: 1.5rem;
+    max-width: 680px;
+    width: 100%;
+    margin: 0 auto;
+  }
+
+  .section-group {
+    margin-bottom: 1.75rem;
+  }
+
+  .section-label {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--chapter-color-dark);
+    margin-bottom: 0.6rem;
+    padding-left: 2px;
+  }
+
+  /* ── FILE CARDS ── */
+  .file-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .file-card {
+    background: #fff;
+    border: 1px solid #e8eaed;
+    border-radius: 12px;
+    padding: 0.85rem 1rem;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    transition: border-color 0.15s, box-shadow 0.15s;
+  }
+
+  .file-card:hover {
+    border-color: var(--chapter-color);
+    box-shadow: 0 2px 12px color-mix(in srgb, var(--chapter-color) 15%, transparent);
+  }
+
+  .file-icon {
+    width: 40px; height: 40px;
+    border-radius: 10px;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+    background: var(--chapter-color-light);
+  }
+
+  .file-icon svg { width: 20px; height: 20px; }
+
+  .file-info { flex: 1; min-width: 0; }
+
+  .file-name {
+    font-size: 14px;
+    font-weight: 500;
+    color: #1a1a2e;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .file-desc {
+    font-size: 12px;
+    color: #6b7280;
+    margin-top: 2px;
+  }
+
+  .file-actions { display: flex; gap: 6px; flex-shrink: 0; }
+
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    border-radius: 8px;
+    padding: 6px 12px;
+    font-size: 12px;
+    font-weight: 500;
+    cursor: pointer;
+    text-decoration: none;
+    transition: all 0.15s;
+    white-space: nowrap;
+    border: 1px solid transparent;
+  }
+
+  .btn-primary {
+    background: var(--chapter-color);
+    color: var(--chapter-color-text);
+  }
+  .btn-primary:hover {
+    background: var(--chapter-color-dark);
+  }
+
+  .btn-secondary {
+    background: transparent;
+    color: var(--chapter-color-dark);
+    border-color: var(--chapter-color);
+  }
+  .btn-secondary:hover {
+    background: var(--chapter-color-light);
+  }
+
+  /* ── FOOTER ── */
+  footer {
+    text-align: center;
+    padding: 1.25rem;
+    font-size: 11px;
+    color: #9ca3af;
+    border-top: 1px solid #e8eaed;
+    background: #fff;
+  }
+
+  footer a { color: inherit; text-decoration: none; }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 480px) {
+    .file-name { font-size: 13px; }
+    .btn { padding: 5px 9px; font-size: 11px; }
+    .header { padding: 1.5rem 1.25rem 1.5rem; }
+    main { padding: 1.25rem; }
+  }
+</style>
+</head>
+<body>
+
+<!-- =====================================================
+     HEADER
+     Άλλαξε: CHAPTER_NUM, CHAPTER_TITLE, SECTION_NUM, SECTION_TITLE
+     ===================================================== -->
+<header class="header">
+  <div class="breadcrumb">
+    Φυσική Γ΄ Γυμνασίου &nbsp;·&nbsp; Κεφάλαιο 5
+  </div>
+  <h1>5.1 &nbsp;Μηχανικά Κύματα</h1>
+  <div class="header-meta">
+    <span class="badge">
+      <!-- Εικονίδιο -->
+      <svg viewBox="0 0 24 24" fill="none" width="12" height="12">
+        <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"
+              fill="currentColor"/>
+      </svg>
+      Μηχανικά Κύματα
+    </span>
+  </div>
+</header>
+
+<!-- =====================================================
+     ΠΕΡΙΕΧΟΜΕΝΟ
+     Οδηγίες:
+       - Διέγραψε sections που δεν χρειάζεσαι
+       - Στο href βάλε το όνομα αρχείου (π.χ. presentation.html)
+       - Παρουσιάσεις → btn-primary + "Άνοιγμα"
+       - Downloadable → btn-secondary + "Λήψη" + download attribute
+     ===================================================== -->
+<main>
+
+  <!-- ΠΑΡΟΥΣΙΑΣΗ (reveal.js) -->
+  <div class="section-group">
+    <div class="section-label">Παρουσίαση</div>
+    <ul class="file-list">
+
+      <li class="file-card">
+        <div class="file-icon">
+          <!-- Εικονίδιο presentation -->
+          <svg viewBox="0 0 24 24" fill="none">
+            <rect x="2" y="3" width="20" height="14" rx="2"
+                  stroke="var(--chapter-color)" stroke-width="1.5"/>
+            <path d="M8 21h8M12 17v4"
+                  stroke="var(--chapter-color)" stroke-width="1.5" stroke-linecap="round"/>
+            <path d="M8 10l3 3 5-5"
+                  stroke="var(--chapter-color)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </div>
+        <div class="file-info">
+          <div class="file-name">PRESENTATION_TITLE</div>
+          <div class="file-desc">Διαδραστική παρουσίαση</div>
+        </div>
+        <div class="file-actions">
+          <a href="presentation.html" class="btn btn-primary">
+            <!-- play icon -->
+            <svg viewBox="0 0 24 24" fill="currentColor" width="12" height="12">
+              <path d="M8 5v14l11-7z"/>
+            </svg>
+            Άνοιγμα
+          </a>
+        </div>
+      </li>
+
+    </ul>
+  </div>
+
+  <!-- ΦΥΛΛΑ ΕΡΓΑΣΙΑΣ -->
+  <div class="section-group">
+    <div class="section-label">Φύλλα εργασίας</div>
+    <ul class="file-list">
+
+      <li class="file-card">
+        <div class="file-icon">
+          <!-- Εικονίδιο PDF -->
+          <svg viewBox="0 0 24 24" fill="none">
+            <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"
+                  stroke="var(--chapter-color)" stroke-width="1.5"/>
+            <path d="M14 2v6h6M9 13h6M9 17h4"
+                  stroke="var(--chapter-color)" stroke-width="1.5" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <div class="file-info">
+          <div class="file-name">Φύλλο εργασίας</div>
+          <div class="file-desc">PDF · PAGES σελίδες</div>
+        </div>
+        <div class="file-actions">
+          <a href="worksheet.pdf" download class="btn btn-secondary">
+            <!-- download icon -->
+            <svg viewBox="0 0 24 24" fill="none" width="12" height="12"
+                 stroke="currentColor" stroke-width="2" stroke-linecap="round">
+              <path d="M12 2v13M7 10l5 5 5-5M3 17v2a2 2 0 002 2h14a2 2 0 002-2v-2"/>
+            </svg>
+            Λήψη
+          </a>
+        </div>
+      </li>
+
+      <li class="file-card">
+        <div class="file-icon">
+          <!-- Εικονίδιο PDF με checkmark (απαντητάριο) -->
+          <svg viewBox="0 0 24 24" fill="none">
+            <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"
+                  stroke="var(--chapter-color)" stroke-width="1.5"/>
+            <path d="M14 2v6h6M9 12l2 2 4-4"
+                  stroke="var(--chapter-color)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </div>
+        <div class="file-info">
+          <div class="file-name">Απαντητάριο</div>
+          <div class="file-desc">PDF · Με αναλυτικές λύσεις</div>
+        </div>
+        <div class="file-actions">
+          <a href="worksheet-answers.pdf" download class="btn btn-secondary">
+            <svg viewBox="0 0 24 24" fill="none" width="12" height="12"
+                 stroke="currentColor" stroke-width="2" stroke-linecap="round">
+              <path d="M12 2v13M7 10l5 5 5-5M3 17v2a2 2 0 002 2h14a2 2 0 002-2v-2"/>
+            </svg>
+            Λήψη
+          </a>
+        </div>
+      </li>
+
+    </ul>
+  </div>
+
+  <!-- ΑΞΙΟΛΟΓΗΣΗ -->
+  <div class="section-group">
+    <div class="section-label">Αξιολόγηση</div>
+    <ul class="file-list">
+
+      <li class="file-card">
+        <div class="file-icon">
+          <svg viewBox="0 0 24 24" fill="none">
+            <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"
+                  stroke="var(--chapter-color)" stroke-width="1.5"/>
+            <path d="M14 2v6h6M9 13h6M9 17h4"
+                  stroke="var(--chapter-color)" stroke-width="1.5" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <div class="file-info">
+          <div class="file-name">Τεστ αξιολόγησης</div>
+          <div class="file-desc">PDF · PAGES σελίδα</div>
+        </div>
+        <div class="file-actions">
+          <a href="test.pdf" download class="btn btn-secondary">
+            <svg viewBox="0 0 24 24" fill="none" width="12" height="12"
+                 stroke="currentColor" stroke-width="2" stroke-linecap="round">
+              <path d="M12 2v13M7 10l5 5 5-5M3 17v2a2 2 0 002 2h14a2 2 0 002-2v-2"/>
+            </svg>
+            Λήψη
+          </a>
+        </div>
+      </li>
+
+      <li class="file-card">
+        <div class="file-icon">
+          <svg viewBox="0 0 24 24" fill="none">
+            <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"
+                  stroke="var(--chapter-color)" stroke-width="1.5"/>
+            <path d="M14 2v6h6M9 12l2 2 4-4"
+                  stroke="var(--chapter-color)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </div>
+        <div class="file-info">
+          <div class="file-name">Απαντητάριο τεστ</div>
+          <div class="file-desc">PDF · Με αναλυτικές λύσεις</div>
+        </div>
+        <div class="file-actions">
+          <a href="test-answers.pdf" download class="btn btn-secondary">
+            <svg viewBox="0 0 24 24" fill="none" width="12" height="12"
+                 stroke="currentColor" stroke-width="2" stroke-linecap="round">
+              <path d="M12 2v13M7 10l5 5 5-5M3 17v2a2 2 0 002 2h14a2 2 0 002-2v-2"/>
+            </svg>
+            Λήψη
+          </a>
+        </div>
+      </li>
+
+    </ul>
+  </div>
+
+  <!-- ΣΧΕΔΙΟ ΜΑΘΗΜΑΤΟΣ (για εκπαιδευτικούς) -->
+  <div class="section-group">
+    <div class="section-label">Σχέδιο μαθήματος</div>
+    <ul class="file-list">
+
+      <li class="file-card">
+        <div class="file-icon">
+          <!-- Εικονίδιο DOCX -->
+          <svg viewBox="0 0 24 24" fill="none">
+            <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"
+                  stroke="var(--chapter-color)" stroke-width="1.5"/>
+            <path d="M14 2v6h6M9 10h6M9 14h6M9 18h4"
+                  stroke="var(--chapter-color)" stroke-width="1.5" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <div class="file-info">
+          <div class="file-name">Σχέδιο μαθήματος</div>
+          <div class="file-desc">DOCX · Για εκπαιδευτικούς</div>
+        </div>
+        <div class="file-actions">
+          <a href="lesson-plan.docx" download class="btn btn-secondary">
+            <svg viewBox="0 0 24 24" fill="none" width="12" height="12"
+                 stroke="currentColor" stroke-width="2" stroke-linecap="round">
+              <path d="M12 2v13M7 10l5 5 5-5M3 17v2a2 2 0 002 2h14a2 2 0 002-2v-2"/>
+            </svg>
+            Λήψη
+          </a>
+        </div>
+      </li>
+
+    </ul>
+  </div>
+
+  <!-- ΒΙΝΤΕΟ / ΕΞΩΤΕΡΙΚΟ ΥΛΙΚΟ -->
+  <div class="section-group">
+    <div class="section-label">Βίντεο &amp; Εξωτερικό υλικό</div>
+    <ul class="file-list">
+
+      <li class="file-card">
+        <div class="file-icon">
+          <!-- Εικονίδιο video -->
+          <svg viewBox="0 0 24 24" fill="none">
+            <rect x="2" y="5" width="15" height="14" rx="2"
+                  stroke="var(--chapter-color)" stroke-width="1.5"/>
+            <path d="M17 9l5-3v12l-5-3V9z"
+                  stroke="var(--chapter-color)" stroke-width="1.5" stroke-linejoin="round"/>
+          </svg>
+        </div>
+        <div class="file-info">
+          <div class="file-name">VIDEO_TITLE</div>
+          <div class="file-desc">YouTube · VIDEO_DURATION λεπτά</div>
+        </div>
+        <div class="file-actions">
+          <a href="VIDEO_URL" target="_blank" rel="noopener" class="btn btn-primary">
+            <svg viewBox="0 0 24 24" fill="currentColor" width="12" height="12">
+              <path d="M8 5v14l11-7z"/>
+            </svg>
+            Άνοιγμα
+          </a>
+        </div>
+      </li>
+
+    </ul>
+  </div>
+
+</main>
+
+<!-- =====================================================
+     FOOTER
+     ===================================================== -->
+<footer>
+  <a href="https://emnik.github.io/physics-gym-c/">Φυσική Γ΄ Γυμνασίου</a>
+  &nbsp;·&nbsp; Νοέσε &nbsp;·&nbsp; 2024–25
+</footer>
+
+</body>
+</html>
