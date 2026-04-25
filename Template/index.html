@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="el" data-theme="dark">
+<html lang="el">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -68,8 +68,9 @@
     display: flex;
     flex-direction: column;
     transition: background 0.25s, color 0.25s;
-    font-size: 16px;
+    font-size: 15px;
   }
+  @media (min-width: 600px) { body { font-size: 16px; } }
 
   /* ── HEADER ── */
   .header {
@@ -79,8 +80,11 @@
     position: relative;
     overflow: hidden;
   }
-
-  /* Κεφ. 5 (κίτρινο): πρόσθεσε class="header header-dark-text" */
+  @media (min-width: 600px) {
+    .header { padding: 2.5rem 2.5rem 2.25rem; }
+    .header h1 { font-size: 2rem; }
+    .breadcrumb { font-size: 13px; }
+  }
   .header-dark-text,
   .header-dark-text .badge { color: #7a6200; }
   .header-dark-text .badge { background: rgba(0,0,0,0.12); }
@@ -173,10 +177,13 @@
   /* ── MAIN ── */
   main {
     flex: 1;
-    padding: 1.75rem;
-    max-width: 700px;
+    padding: 1.5rem;
+    max-width: 860px;
     width: 100%;
     margin: 0 auto;
+  }
+  @media (min-width: 600px) {
+    main { padding: 2rem 2.5rem; }
   }
 
   .section-group { margin-bottom: 2rem; }
@@ -208,6 +215,13 @@
     align-items: center;
     gap: 14px;
     transition: border-color 0.15s, box-shadow 0.15s, background 0.25s;
+  }
+  @media (min-width: 600px) {
+    .file-card { padding: 1.1rem 1.4rem; gap: 16px; }
+    .file-name { font-size: 16px; }
+    .file-desc { font-size: 14px; }
+    .file-icon { width: 48px; height: 48px; border-radius: 12px; }
+    .btn       { padding: 8px 16px; font-size: 14px; }
   }
 
   .file-card:hover {
@@ -556,13 +570,22 @@
   const toggle = document.getElementById('themeToggle');
   const html   = document.documentElement;
 
-  // Φόρτωση αποθηκευμένης προτίμησης — αλλιώς dark (default)
-  const saved = localStorage.getItem('pgc-theme');
-  if (saved) {
-    html.setAttribute('data-theme', saved);
-  }
-  // Ενημέρωση εικονιδίου με βάση το τρέχον theme
-  toggle.textContent = html.getAttribute('data-theme') === 'dark' ? '☀️' : '🌙';
+  // Προτεραιότητα: 1) αποθηκευμένη επιλογή χρήστη, 2) ρύθμιση συσκευής
+  const saved  = localStorage.getItem('pgc-theme');
+  const system = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+  const active = saved || system;
+
+  html.setAttribute('data-theme', active);
+  toggle.textContent = active === 'dark' ? '☀️' : '🌙';
+
+  // Αν αλλάξουν οι ρυθμίσεις συσκευής και ο χρήστης δεν έχει επιλέξει χειροκίνητα
+  window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', e => {
+    if (!localStorage.getItem('pgc-theme')) {
+      const next = e.matches ? 'dark' : 'light';
+      html.setAttribute('data-theme', next);
+      toggle.textContent = next === 'dark' ? '☀️' : '🌙';
+    }
+  });
 
   toggle.addEventListener('click', () => {
     const current = html.getAttribute('data-theme');
