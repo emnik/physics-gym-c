@@ -83,9 +83,91 @@
             }
         };
     </script>
+    <style>
+    /* Το Overlay */
+    #rotate-overlay {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        background: linear-gradient(135deg, #283b95 0%, #162252 100%);
+        color: white;
+        z-index: 10000;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        padding: 20px;
+        box-sizing: border-box;
+    }
+
+    /* Το εικονίδιο του κινητού */
+    .phone-icon {
+        width: 50px;
+        height: 80px;
+        border: 3px solid white;
+        border-radius: 6px;
+        position: relative;
+        margin-bottom: 25px;
+        animation: rotateDevice 2s ease-in-out infinite;
+    }
+
+    .phone-icon::after {
+        content: '';
+        position: absolute;
+        bottom: 5px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 10px;
+        height: 10px;
+        border: 2px solid white;
+        border-radius: 50%;
+    }
+
+    /* Animation κίνησης */
+    @keyframes rotateDevice {
+        0% { transform: rotate(0deg); }
+        30% { transform: rotate(-90deg); }
+        70% { transform: rotate(-90deg); }
+        100% { transform: rotate(0deg); }
+    }
+
+    .overlay-title {
+        font-size: 1.5rem;
+        font-weight: bold;
+        margin-bottom: 10px;
+    }
+
+    .overlay-text {
+        font-size: 1rem;
+        opacity: 0.8;
+        max-width: 300px;
+        line-height: 1.4;
+    }
+
+    /* Εμφάνιση ΜΟΝΟ σε κινητά (max-width) και ΜΟΝΟ σε Portrait */
+    @media screen and (orientation: portrait) and (max-width: 1024px) {
+        #rotate-overlay {
+            display: flex;
+        }
+        .reveal {
+            display: none !important;
+        }
+    }
+</style>
 </head>
 
 <body>
+    <div id="rotate-overlay">
+    <div class="phone-icon"></div>
+    <div class="overlay-title">Καλύτερη Εμπειρία Προβολής</div>
+    <div class="overlay-text">
+        Παρακαλούμε γυρίστε τη συσκευή σας σε <b>οριζόντια θέση</b> για να δείτε την παρουσίαση.
+    </div>
+</div>
     <div class="reveal">
         <div class="slides"><section  data-markdown><script type="text/template"><!-- .slide: class="has-dark-background drop" template="" data-background-color="#283b95" -->
 <div class="" style="position: absolute; left: 0px; top: 0px; height: 1200px; width: 1920px; min-height: 1200px; display: flex; flex-direction: column; align-items: center; justify-content: center" absolute="true">
