@@ -148,8 +148,12 @@
         line-height: 1.4;
     }
 
-    /* Εμφάνιση ΜΟΝΟ σε κινητά (max-width) και ΜΟΝΟ σε Portrait */
-    @media screen and (orientation: portrait) and (max-width: 1024px) {
+    /* Εμφάνιση ΜΟΝΟ αν:
+       1. Η συσκευή είναι σε Portrait (κάθετη)
+       2. Το πλάτος είναι κάτω από 1024px
+       3. Η συσκευή έχει "coarse" pointer (δηλαδή touchscreen/αφή, όχι ποντίκι) */
+    
+    @media screen and (orientation: portrait) and (max-width: 1024px) and (pointer: coarse) {
         #rotate-overlay {
             display: flex;
         }
