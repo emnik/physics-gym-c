@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+
+    <title></title>
+    <link rel="stylesheet" href="dist/reset.css">
+    <link rel="stylesheet" href="dist/reveal.css" />
+    <link rel="stylesheet" href="css/slides-extended.css" />
+    <link rel="stylesheet" href="NOESE/Attachments/dracula-custom.css" id="theme" />
+    <link rel="stylesheet" href="plugin/highlight/zenburn.css" />
+    <link rel="stylesheet" href="plugin/customcontrols/style.css">
+
+
+
+    <script defer src="dist/fontawesome/all.min.js"></script>
+
+    <script type="text/javascript">
+        function pageInIframe() {
+            return (window.location !== window.parent.location);
+        }
+
+        let forgetPop = true;
+        function onPopState(event) {
+            if(forgetPop){
+                forgetPop = false;
+            } else if( pageInIframe()) {
+                parent.postMessage(event.target.location.href, "app://obsidian.md");
+            }
+        }
+        window.onpopstate = onPopState;
+        window.onmessage = event => {
+            if(event.data == "reload"){
+                window.document.location.reload();
+            }
+            forgetPop = true;
+        }
+
+        function fitElements() {
+            const itemsToFit = document.getElementsByClassName('fitText');
+            for (const item in itemsToFit) {
+                if (Object.hasOwnProperty.call(itemsToFit, item)) {
+                    const element = itemsToFit[item];
+                    fitElement(element, 1, 1000);
+                    element.classList.remove('fitText');
+                }
+            }
+        }
+
+        function fitElement(element, start, end) {
+
+            let size = (end + start) / 2;
+            element.style.fontSize = `${size}px`;
+
+            if (Math.abs(start - end) < 1) {
+                while (element.scrollHeight > element.offsetHeight) {
+                    size--;
+                    element.style.fontSize = `${size}px`;
+                }
+                return;
+            }
+
+            if (element.scrollHeight > element.offsetHeight) {
+                fitElement(element, start, size);
+            } else {
+                fitElement(element, size, end);
+            }
+        }
+
+        document.onreadystatechange = () => {
+            fitElements();
+            if (document.readyState === 'complete') {
+                if (pageInIframe() && window.location.href.indexOf("?export") != -1){
+                    parent.postMessage(event.target.location.href, "app://obsidian.md");
+                }
+                if (window.location.href.indexOf("print-pdf") != -1){
+                    let stateCheck = setInterval(() => {
+                        clearInterval(stateCheck);
+                        window.print();
+                    }, 250);
+                }
+            }
+        };
+    </script>
+</head>
+
+<body>
+    <div class="reveal">
+        <div class="slides"><section  data-markdown><script type="text/template"><!-- .slide: class="has-dark-background drop" template="" data-background-color="#283b95" -->
+<div class="" style="position: absolute; left: 0px; top: 0px; height: 1200px; width: 1920px; min-height: 1200px; display: flex; flex-direction: column; align-items: center; justify-content: center" absolute="true">
+
+# 5.1 Μηχανικά Κύματα
+</div></script></section><section  data-markdown><script type="text/template"><!-- .slide: class="has-dark-background drop" template="" data-background-color="#283b95" -->
+<div class="" style="position: absolute; left: 0px; top: 0px; height: 1200px; width: 1920px; min-height: 1200px; display: flex; flex-direction: column; align-items: center; justify-content: center" absolute="true">
+
+## Είστε έτοιμοι να «πιάσουμε» το κύμα;
+
+<img src="05.Καρτέλες διδασκαλίας/Γ Γυμνασίου/attachments/5.1 Μηχανικά Κύματα -  Καρτέλες-34.jpeg" alt="" style="width: 1100px; object-fit: fill">
+
+
+Ένα ταξίδι στην **ενέργεια που ταξιδεύει** γύρω μας!
+
+Πώς η ενέργεια μετακινείται από το ένα μέρος στο άλλο χωρίς να χρειάζεται να κουβαλήσει ύλη μαζί της;
+</div></script></section><section  data-markdown><script type="text/template"><!-- .slide: class="has-dark-background drop" template="" data-background-color="#283b95" -->
+<div class="" style="position: absolute; left: 0px; top: 0px; height: 1200px; width: 1920px; min-height: 1200px; display: flex; flex-direction: column; align-items: center; justify-content: center" absolute="true">
+
+## Μεταφέρεται το νερό προς την ακτή;
+
+Παρατηρήστε τον αθλητή της ιστιοσανίδας (surfing). Η κινητική του ενέργεια αυξάνεται δραστικά. **Από πού προήλθε αυτή η ενέργεια;** 
+
+<img src="05.Καρτέλες διδασκαλίας/Γ Γυμνασίου/attachments/5.1 Μηχανικά Κύματα -  Καρτέλες-35.jpeg" alt="" style="width: 1200px; object-fit: fill">
+</div></script></section><section  data-markdown><script type="text/template"><!-- .slide: class="has-dark-background drop" template="" data-background-color="#283b95" -->
+<div class="" style="position: absolute; left: 0px; top: 0px; height: 1200px; width: 1920px; min-height: 1200px; display: flex; flex-direction: column; align-items: center; justify-content: center" absolute="true">
+
+## Μεταφορά ενέργειας
+
+<img src="05.Καρτέλες διδασκαλίας/Γ Γυμνασίου/attachments/5.1 Μηχανικά Κύματα -  Καρτέλες-36.jpeg" alt="" style="width: 1000px; object-fit: fill">
+
+
+**Πείραμα Α (Η Μπάλα):** Η μπάλα μεταφέρει ενέργεια μέσω της ύλης που κινείται (κρούση).
+
+**Πείραμα Β (Το Σκοινί):** Tο αμαξάκι κινείται. Το σκοινί δεν άλλαξε θέση, αλλά η «διαταραχή» ταξίδεψε και μετέφερε την ενέργεια.
+</div></script></section><section  data-markdown><script type="text/template"><!-- .slide: class="has-dark-background drop" template="" data-background-color="#283b95" -->
+<div class="" style="position: absolute; left: 0px; top: 0px; height: 1200px; width: 1920px; min-height: 1200px; display: flex; flex-direction: column; align-items: center; justify-content: center" absolute="true">
+
+## Μηχανικό κύμα
+
+> [!important] Ορισμός
+> **Κύμα** είναι η διάδοση μιας διαταραχής σε ένα μέσο. Η ενέργεια ταξιδεύει από τη μια περιοχή στην άλλη, ενώ το υλικό μέσο (νερό, αέρας, σκοινί) απλώς ταλαντώνεται γύρω από τη θέση ισορροπίας του.
+
+**Μηχανικά Κύματα:** Μεταφέρουν μηχανική ενέργεια.
+
+**Μέσο Διάδοσης:** Το υλικό που απαιτείται για να ταξιδέψει το κύμα (π.χ. τα πετρώματα της γης, ο αέρας).
+</div></script></section><section  data-markdown><script type="text/template"><!-- .slide: class="has-dark-background drop" template="" data-background-color="#283b95" -->
+<div class="" style="position: absolute; left: 0px; top: 0px; height: 1200px; width: 1920px; min-height: 1200px; display: flex; flex-direction: column; align-items: center; justify-content: center" absolute="true">
+
+## Mexican wave
+
+<video controls width="100%" height="100%">
+  <source src="../../07.Σχέδια%20Μαθήματος/attachments/Massive%20Mexican%20Wave!%20-%20London%202012%20Olympic%20Stadium.mp4" type="video/mp4">
+</video>
+</div></script></section><section  data-markdown><script type="text/template"><!-- .slide: class="has-dark-background drop" template="" data-background-color="#283b95" -->
+<div class="" style="position: absolute; left: 0px; top: 0px; height: 1200px; width: 1920px; min-height: 1200px; display: flex; flex-direction: column; align-items: center; justify-content: center" absolute="true">
+
+## Τύπος 1: Εγκάρσια Κύματα
+
+<img src="05.Καρτέλες διδασκαλίας/Γ Γυμνασίου/attachments/5.1 Μηχανικά Κύματα -  Καρτέλες-37.jpeg" alt="" style="width: 1000px; object-fit: fill">
+
+
+- Φανταστείτε ένα τεντωμένο σκοινί. Αν κουνήσουμε το χέρι μας πάνω-κάτω, η διαταραχή «τρέχει» προς τα εμπρός σχηματίζοντας «**όρη**» και «**κοιλάδες**». 
+- Παρατηρήστε την κόκκινη κορδέλα στην εικόνα: Τα σωματίδια του σκοινιού **κινούνται κάθετα στη διεύθυνση που ταξιδεύει το κύμα**.
+- Παραδείγματα: Κύματα σε χορδές κιθάρας ή πιάνου.
+</div></script></section><section  data-markdown><script type="text/template"><!-- .slide: class="has-dark-background drop" template="" data-background-color="#283b95" -->
+<div class="" style="position: absolute; left: 0px; top: 0px; height: 1200px; width: 1920px; min-height: 1200px; display: flex; flex-direction: column; align-items: center; justify-content: center" absolute="true">
+
+## Τύπος 2: Διαμήκη Κύματα
+
+<img src="05.Καρτέλες διδασκαλίας/Γ Γυμνασίου/attachments/5.1 Μηχανικά Κύματα -  Καρτέλες-38.jpeg" alt="" style="width: 1000px; object-fit: fill">
+
+
+- Αν σε ένα ελατήριο συμπιέσουμε τις σπείρες και τις αφήσουμε, το πύκνωμα ταξιδεύει κατά μήκος του.
+- Εδώ, οι σπείρες **κινούνται παράλληλα με τη διεύθυνση του κύματος**.
+- Δημιουργούνται περιοχές όπου οι σπείρες είναι κοντά (**Πυκνώματα**) και περιοχές που είναι μακριά (**Αραιώματα**).
+</div></script></section><section  data-markdown><script type="text/template"><!-- .slide: class="has-dark-background drop" template="" data-background-color="#283b95" -->
+<div class="" style="position: absolute; left: 0px; top: 0px; height: 1200px; width: 1920px; min-height: 1200px; display: flex; flex-direction: column; align-items: center; justify-content: center" absolute="true">
+
+<video controls width="33%" height="100%">
+  <source src="../../07.Σχέδια Μαθήματος/attachments/Transverse Vs Longitudinal Waves.mp4" type="video/mp4">
+</video>
+</div></script></section><section  data-markdown><script type="text/template"><!-- .slide: class="has-dark-background drop" template="" data-background-color="#283b95" -->
+<div class="" style="position: absolute; left: 0px; top: 0px; height: 1200px; width: 1920px; min-height: 1200px; display: flex; flex-direction: column; align-items: center; justify-content: center" absolute="true">
+
+## Ο Ήχος είναι Διάμηκες Κύμα
+
+<img src="05.Καρτέλες διδασκαλίας/Γ Γυμνασίου/attachments/5.1 Μηχανικά Κύματα -  Καρτέλες-39.jpeg" alt="" style="width: 1000px; object-fit: fill">
+
+
+- Το έμβολο (ή οι φωνητικές χορδές) πιέζει τον αέρα μπρος-πίσω.
+- Δημιουργούνται στρώματα αέρα «μεγάλης πίεσης» (πυκνώματα) και «μικρής πίεσης» (αραιώματα).
+- Αυτά τα πυκνώματα **ταξιδεύουν στον αέρα μέχρι να χτυπήσουν το τύμπανο του αυτιού μας.**
+</div></script></section><section  data-markdown><script type="text/template"><!-- .slide: class="has-dark-background drop" template="" data-background-color="#283b95" -->
+<div class="" style="position: absolute; left: 0px; top: 0px; height: 1200px; width: 1920px; min-height: 1200px; display: flex; flex-direction: column; align-items: center; justify-content: center" absolute="true">
+
+## Εγκάρσια vs Διαμήκη: Η Σύγκριση
+
+<img src="05.Καρτέλες διδασκαλίας/Γ Γυμνασίου/attachments/5.1 Μηχανικά Κύματα -  Καρτέλες-40.jpeg" alt="" style="width: 1200px; object-fit: fill">
+
+
+Και τα δύο **μεταφέρουν ενέργεια**, αλλά με διαφορετική «γεωμετρία» κίνησης.
+</div></script></section><section  data-markdown><script type="text/template"><!-- .slide: class="has-dark-background drop" template="" data-background-color="#283b95" -->
+<div class="" style="position: absolute; left: 0px; top: 0px; height: 1200px; width: 1920px; min-height: 1200px; display: flex; flex-direction: column; align-items: center; justify-content: center" absolute="true">
+
+## Επιφανειακά Κύματα: Ένα Μείγμα
+
+<img src="05.Καρτέλες διδασκαλίας/Γ Γυμνασίου/attachments/5.1 Μηχανικά Κύματα -  Καρτέλες-41.jpeg" alt="" style="width: 900px; object-fit: fill">
+
+
+**Τι συμβαίνει όταν ρίχνουμε μια πέτρα στη λίμνη;**
+- Στην επιφάνεια του νερού, τα πράγματα είναι πιο περίπλοκα. Τα σωματίδια κινούνται **και πάνω - κάτω ΚΑΙ μπρος-πίσω.**
+- Το αποτέλεσμα; Τα σωματίδια διαγράφουν **κυκλικές τροχιές**.
+- Είναι ένας συνδυασμός εγκάρσιου και διαμήκους κύματος.
+</div></script></section><section  data-markdown><script type="text/template"><!-- .slide: class="has-dark-background drop" template="" data-background-color="#283b95" -->
+<div class="" style="position: absolute; left: 0px; top: 0px; height: 1200px; width: 1920px; min-height: 1200px; display: flex; flex-direction: column; align-items: center; justify-content: center" absolute="true">
+
+## Σεισμικά Κύματα: Ο Παλμός της Γης
+
+<img src="05.Καρτέλες διδασκαλίας/Γ Γυμνασίου/attachments/5.1 Μηχανικά Κύματα -  Καρτέλες-42.jpeg" alt="" style="width: 900px; object-fit: fill">
+
+
+Ένας σεισμός παράγει δύο ειδών κύματα: 
+1. **Κύματα Ρ (Primary/Πρωτεύοντα):** Είναι **διαμήκη** (σαν το ελατήριο). Είναι γρήγορα και περνούν παντού. 
+2. **Κύματα S (Secondary/Δευτερεύοντα):** Είναι **εγκάρσια** (σαν το σκοινί). Είναι πιο αργά.
+</div></script></section><section  data-markdown><script type="text/template"><!-- .slide: class="has-dark-background drop" template="" data-background-color="#283b95" -->
+<div class="" style="position: absolute; left: 0px; top: 0px; height: 1200px; width: 1920px; min-height: 1200px; display: flex; flex-direction: column; align-items: center; justify-content: center" absolute="true">
+
+## «Φακός» στο Εσωτερικό της Γης
+
+<img src="05.Καρτέλες διδασκαλίας/Γ Γυμνασίου/attachments/5.1 Μηχανικά Κύματα -  Καρτέλες-43.jpeg" alt="" style="width: 900px; object-fit: fill">
+
+
+- Οι επιστήμονες παρατήρησαν ότι τα Εγκάρσια Κύματα (S) σταματούν και δεν περνούν από τον πυρήνα.
+- Θυμάστε τον κανόνα; Τα εγκάρσια διαδίδονται μόνο στα στερεά.
+- **Άρα, ο πυρήνας πρέπει να είναι υγρός!** Η Φυσική των κυμάτων μας αποκαλύπτει το εσωτερικό του πλανήτη μας.
+</div></script></section><section  data-markdown><script type="text/template"><!-- .slide: class="has-dark-background drop" template="" data-background-color="#283b95" -->
+<div class="" style="position: absolute; left: 0px; top: 0px; height: 1200px; width: 1920px; min-height: 1200px; display: flex; flex-direction: column; align-items: center; justify-content: center" absolute="true">
+
+## Η Ενέργεια Συνεχίζει το Ταξίδι της
+
+<img src="05.Καρτέλες διδασκαλίας/Γ Γυμνασίου/attachments/5.1 Μηχανικά Κύματα -  Καρτέλες-44.jpeg" alt="" style="width: 1100px; object-fit: fill">
+
+
+Κατανοώντας τα κύματα, κατανοούμε πώς η φύση μεταφέρει ενέργεια σε τεράστιες αποστάσεις.
+**Δεν μετακινείται η ύλη (το νερό ή η πέτρα), αλλά η διαταραχή.**
+</div></script></section><section  data-markdown><script type="text/template"><!-- .slide: class="has-dark-background drop" template="" data-background-color="#283b95" -->
+<div class="" style="position: absolute; left: 0px; top: 0px; height: 1200px; width: 1920px; min-height: 1200px; display: flex; flex-direction: column; align-items: center; justify-content: center" absolute="true">
+
+## Τέλος
+
+notes:
+
+%%
+IMAGE PROMPTS
+
+Slide 1 [TYPE: ILLUSTRATION]:
+```markdown
+A premium educational illustration in National Geographic style symbolizing "Energy Traveling." The scene features a mesmerizing ocean wave curling and breaking at sunset. The water is rendered with realistic transparency and foam details, but overlaid with subtle, glowing golden lines representing the flow of kinetic energy within the water mass. The composition captures the power and motion of the wave. The overall aesthetic uses a Light Warm Gray (#F5F5F0) background, dimensionally rendered forms with soft shadows, rich natural textures (water, foam, light), and a polished, gallery-quality finish—strictly consistent with premium science education visual standards.
+```
+
+Slide 2 [TYPE: ILLUSTRATION]:
+```markdown
+A premium educational illustration in National Geographic style showcasing a surfer riding a massive, curling ocean wave. The surfer is carved into the face of a giant wall of water, demonstrating the enormous kinetic energy of the wave. The water is rendered with realistic turquoise transparency, white sea spray, and detailed foam patterns. The composition uses a low-angle perspective to emphasize the wave's scale and power. The overall aesthetic uses a Light Warm Gray (#F5F5F0) background (subtly blended at the edges), dimensionally rendered forms with soft shadows, rich natural textures (water, foam), and a polished, gallery-quality finish—strictly consistent with premium science education visual standards.
+```
+
+Slide 3 [TYPE: ILLUSTRATION]:
+```markdown
+A premium educational illustration in museum exhibit style comparing two experiments. Top: A bowling ball hitting pins (Matter Transport). Bottom: A wave traveling along a heavy rope held by a hand (Energy Transport). The rope shows a distinct pulse moving along it while the rope material itself stays in place. The composition clearly contrasts the two modes of energy transfer. The overall aesthetic uses a Light Warm Gray (#F5F5F0) background, dimensionally rendered forms with soft shadows, rich material textures (rope, wood floor), and a polished, gallery-quality finish—strictly consistent with premium science education visual standards.
+```
+
+Slide 5 [TYPE: DIAGRAM]:
+```markdown
+A scientific diagram illustrating a Transverse Wave on a rope. A hand moves the rope up and down. The wave travels horizontally to the right (Red Arrow: Wave Velocity), while a specific point on the rope marked with a red ribbon moves only up and down (Blue Arrow: Particle Velocity). To provide educational clarity, the Greek text 'Διεύθυνση Διάδοσης' and 'Διεύθυνση Ταλάντωσης' is included in a clean sans-serif font. The overall aesthetic uses a uniform Light Warm Gray (#F5F5F0) background, minimal textbook color palette (blue for rope, red for vectors), flat 2D schematic style, clean geometric forms, and shadow-free presentation—strictly consistent with a Greek physics textbook's visual identity.
+```
+
+Slide 6 [TYPE: DIAGRAM]:
+```markdown
+A scientific diagram illustrating a Longitudinal Wave on a slinky spring. A hand pushes and pulls the spring. Compressions (dense coils) and rarefactions (spread coils) travel along the spring. Arrows show that the coils move back and forth parallel to the wave's direction. To provide educational clarity, the Greek text 'Πύκνωμα' and 'Αραίωμα' is included in a clean sans-serif font. The overall aesthetic uses a uniform Light Warm Gray (#F5F5F0) background, minimal textbook color palette (blue for spring, red for vectors), flat 2D schematic style, clean geometric forms, and shadow-free presentation—strictly consistent with a Greek physics textbook's visual identity.
+```
+
+Slide 7 [TYPE: DIAGRAM]:
+```markdown
+A scientific diagram illustrating sound as a longitudinal wave. A piston pushes into a tube of air particles, creating regions of high density (compression) and low density (rarefaction). These regions travel towards a stylized ear anatomy on the right. To provide educational clarity, the Greek text 'Πηγή', 'Μέσο Διάδοσης', and 'Δέκτης' is included in a clean sans-serif font. The overall aesthetic uses a uniform Light Warm Gray (#F5F5F0) background, minimal textbook color palette (blue for particles, gray for piston/ear), flat 2D schematic style, clean geometric forms, and shadow-free presentation—strictly consistent with a Greek physics textbook's visual identity.
+```
+
+Slide 8 [TYPE: DIAGRAM]:
+```markdown
+A scientific diagram comparing Transverse and Longitudinal waves side-by-side. Top: A transverse wave (sine curve) with perpendicular particle motion arrows. Bottom: A longitudinal wave (bar code style lines) with parallel particle motion arrows. To provide educational clarity, the Greek text 'Εγκάρσιο' and 'Διαμήκες' is included in a clean sans-serif font. The overall aesthetic uses a uniform Light Warm Gray (#F5F5F0) background, minimal textbook color palette (blue, red, black), flat 2D schematic style, clean geometric forms, and shadow-free presentation—strictly consistent with a Greek physics textbook's visual identity.
+```
+
+Slide 9 [TYPE: DIAGRAM]:
+```markdown
+A scientific diagram illustrating Surface Waves on water. A cross-section of water shows a particle moving in a clockwise circle as a wave passes. The surface profile is a sine wave. Arrows indicate the orbital motion of the water particle, combining up-down and back-forth movement. To provide educational clarity, the Greek text 'Κυκλική Τροχιά' is included in a clean sans-serif font. The overall aesthetic uses a uniform Light Warm Gray (#F5F5F0) background, minimal textbook color palette (blue for water, red for motion path), flat 2D schematic style, clean geometric forms, and shadow-free presentation—strictly consistent with a Greek physics textbook's visual identity.
+```
+
+Slide 10 [TYPE: DIAGRAM]:
+```markdown
+A scientific diagram illustrating Earthquake Waves (P and S) traveling through the Earth. A cutaway of the Earth shows the Crust, Mantle, and Core. Curved lines represent wave paths. P-waves pass through the core, while S-waves are blocked/absorbed by the liquid outer core, creating a 'Shadow Zone'. To provide educational clarity, the Greek text 'Κύματα P', 'Κύματα S', and 'Πυρήνας' is included in a clean sans-serif font. The overall aesthetic uses a uniform Light Warm Gray (#F5F5F0) background, minimal textbook color palette (earth tones, blue/red lines), flat 2D schematic style, clean geometric forms, and shadow-free presentation—strictly consistent with a Greek physics textbook's visual identity.
+```
+
+Slide 11 [TYPE: DIAGRAM]:
+```markdown
+A scientific diagram explaining the 'Shadow Zone' of S-waves. A focused view of the Earth's core acting as a barrier to S-waves (transverse), visually proving its liquid nature. S-wave paths stop abruptly at the core boundary. To provide educational clarity, the Greek text 'Υγρός Πυρήνας' and 'Ζώνη Σκιάς' is included in a clean sans-serif font. The overall aesthetic uses a uniform Light Warm Gray (#F5F5F0) background, minimal textbook color palette (orange for core, red for stopped waves), flat 2D schematic style, clean geometric forms, and shadow-free presentation—strictly consistent with a Greek physics textbook's visual identity.
+```
+
+Slide 12 [TYPE: ILLUSTRATION]:
+```markdown
+A premium educational illustration in National Geographic style symbolizing the concept of "Disturbance Traveling." A calm lake surface is disturbed by a single stone drop, creating perfect concentric ripples expanding outward. The stone is gone, but the energy continues to move. The water has realistic reflections and transparency. The overall aesthetic uses a Light Warm Gray (#F5F5F0) background, dimensionally rendered forms with soft shadows, rich natural textures (water, light), and a polished, gallery-quality finish—strictly consistent with premium science education visual standards.
+```
+%%
+</div></script></section></div>
+    </div>
+
+    <script src="dist/reveal.js"></script>
+    <script src="plugin/notes/notes.js"></script>
+    <script src="plugin/markdown/markdown.js"></script>
+    <script src="plugin/obsidian-markdown.js"></script>
+    <script src="plugin/highlight/highlight.js"></script>
+
+    <script src="plugin/zoom/zoom.js"></script>
+    <script src="plugin/math/math.js"></script>
+    <script src="plugin/mermaid/mermaid.js"></script>
+    <script src="plugin/chart/chart.umd.js"></script>
+    <script src="plugin/chart/plugin.js"></script>
+    <script src="plugin/menu/menu.js"></script>
+    <script src="plugin/customcontrols/plugin.js"></script>
+    <script src="plugin/elapsed-time-bar/elapsed-time-bar.js"></script>
+
+
+    <script>
+        function extend() {
+            const target = {};
+            for (let i = 0; i < arguments.length; i++) {
+                const source = arguments[i];
+                for (const key in source) {
+                    if (source.hasOwnProperty(key)) {
+                        target[key] = source[key];
+                    }
+                }
+            }
+            return target;
+        }
+
+        function isLight(color) {
+            // normalize to rgb(a)
+            const optionEl = document.createElement("option");
+            optionEl.style.color = color;
+            const normalizedColor = optionEl.style.color;
+
+            const [_, c_r, c_g, c_b] = normalizedColor.match(/(\d+), (\d+), (\d+)/);
+
+            const brightness = ((c_r * 299) + (c_g * 587) + (c_b * 114)) / 1000;
+            return brightness > 155;
+        }
+
+        const bgColor = getComputedStyle(document.documentElement).getPropertyValue('--r-background-color').trim();
+
+        if (isLight(bgColor)) {
+            document.body.classList.add('has-light-background');
+        } else {
+            document.body.classList.add('has-dark-background');
+        }
+
+        // default options to init reveal.js
+        const defaultOptions = {
+            controls: true,
+            progress: true,
+            history: true,
+            center: true,
+            transition: 'default', // none/fade/slide/convex/concave/zoom
+            plugins: [
+                ObsidianMarkdown,
+                RevealHighlight,
+                RevealZoom,
+                RevealNotes,
+                RevealMath.KaTeX,
+                RevealMermaid,
+                RevealChart,
+                RevealCustomControls,
+                RevealMenu,
+                ElapsedTimeBar
+            ],
+            allottedTime: "120",
+
+            katex: {
+                local: 'plugin/math/katex',
+                extensions: ["mhchem"],
+            },
+            markdown: {
+                gfm: true,
+            },
+            mermaid: {
+                theme: isLight(bgColor) ? 'default' : 'dark',
+            },
+            customcontrols: {
+                controls: [
+                ]
+            },
+            menu: {
+                loadIcons: false
+            },
+        };
+
+        if ( pageInIframe() ) {
+            defaultOptions.scrollActivationWidth = 5;
+        }
+
+        // options from URL query string
+        const queryOptions = Reveal().getQueryHash() || {};
+
+        const options = extend(defaultOptions, {"controls":true,"progress":true,"slideNumber":true,"center":true,"transition":"convex","transitionSpeed":"normal","width":1920,"height":1200,"margin":0.04}, queryOptions);
+    </script>
+
+    <script>
+      /**
+       * KaTeX Equation Numbering Note
+       * 
+       * KaTeX maintains a global equation counter for \begin{equation} environments.
+       * When navigating between slides, reveal.js math plugin may re-render math, causing 
+       * equation numbers to change randomly.
+       * 
+       * Note: Regular $$ blocks don't have equation numbers - only \begin{equation} does.
+       * 
+       * If you experience issues with equation numbers changing:
+       * Use manual \tag{} commands: \begin{equation}\tag{1} ... \end{equation}
+       */
+      
+      Reveal.initialize(options);
+    </script>
+    <!-- created with Slides Extended reveal.html template -->
+</body>
+</html>
