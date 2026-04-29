@@ -518,7 +518,7 @@ section.has-light-background, section.has-light-background h1, section.has-light
 
 /* extended-slides.css */
 .yt-wrapper {
-    width: 80%; /* Takes up 80% of your 1920px width */
+    width: 80%;
     aspect-ratio: 16 / 9;
     margin: 0 auto;
     position: relative;
@@ -532,6 +532,28 @@ section.has-light-background, section.has-light-background h1, section.has-light
     
     /* The Scale Trick for large UI controls */
     width: 66.66% !important; 
+    height: 66.66% !important;
+    transform: scale(1.5) !important;
+    transform-origin: 0 0 !important;
+    border: 0;
+}
+
+/* Portrait videos (e.g. 9:16) */
+.yt-wrapper-portrait {
+    width: 25%;
+    aspect-ratio: 9 / 16;
+    margin: 0 auto;
+    position: relative;
+    overflow: visible;
+}
+
+.yt-wrapper-portrait iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+
+    /* The Scale Trick for large UI controls */
+    width: 66.66% !important;
     height: 66.66% !important;
     transform: scale(1.5) !important;
     transform-origin: 0 0 !important;
