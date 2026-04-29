@@ -83,95 +83,9 @@
             }
         };
     </script>
-    <style>
-    /* Το Overlay */
-    #rotate-overlay {
-        display: none;
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100vw;
-        height: 100vh;
-        background: linear-gradient(135deg, #283b95 0%, #162252 100%);
-        color: white;
-        z-index: 10000;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        text-align: center;
-        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        padding: 20px;
-        box-sizing: border-box;
-    }
-
-    /* Το εικονίδιο του κινητού */
-    .phone-icon {
-        width: 50px;
-        height: 80px;
-        border: 3px solid white;
-        border-radius: 6px;
-        position: relative;
-        margin-bottom: 25px;
-        animation: rotateDevice 2s ease-in-out infinite;
-    }
-
-    .phone-icon::after {
-        content: '';
-        position: absolute;
-        bottom: 5px;
-        left: 50%;
-        transform: translateX(-50%);
-        width: 10px;
-        height: 10px;
-        border: 2px solid white;
-        border-radius: 50%;
-    }
-
-    /* Animation κίνησης */
-    @keyframes rotateDevice {
-        0% { transform: rotate(0deg); }
-        30% { transform: rotate(-90deg); }
-        70% { transform: rotate(-90deg); }
-        100% { transform: rotate(0deg); }
-    }
-
-    .overlay-title {
-        font-size: 1.5rem;
-        font-weight: bold;
-        margin-bottom: 10px;
-    }
-
-    .overlay-text {
-        font-size: 1rem;
-        opacity: 0.8;
-        max-width: 300px;
-        line-height: 1.4;
-    }
-
-    /* Εμφάνιση ΜΟΝΟ αν:
-       1. Η συσκευή είναι σε Portrait (κάθετη)
-       2. Το πλάτος είναι κάτω από 1024px
-       3. Η συσκευή έχει "coarse" pointer (δηλαδή touchscreen/αφή, όχι ποντίκι) */
-    
-    @media screen and (orientation: portrait) and (max-width: 1024px) and (pointer: coarse) {
-        #rotate-overlay {
-            display: flex;
-        }
-        .reveal {
-            display: none !important;
-        }
-    }
-</style>
 </head>
 
 <body>
-    <div id="rotate-overlay">
-    <div class="phone-icon"></div>
-    <div class="overlay-title">Καλύτερη Εμπειρία Προβολής</div>
-    <div class="overlay-text">
-        Παρακαλούμε γυρίστε τη συσκευή σας σε <b>οριζόντια θέση</b> για να δείτε την παρουσίαση.
-    </div>
-</div>
     <div class="reveal">
         <div class="slides"><section  data-markdown><script type="text/template"><!-- .slide: class="has-dark-background drop" template="" data-background-color="#283b95" -->
 <div class="" style="position: absolute; left: 0px; top: 0px; height: 1200px; width: 1920px; min-height: 1200px; display: flex; flex-direction: column; align-items: center; justify-content: center" absolute="true">
@@ -223,9 +137,9 @@
 
 ## Mexican wave
 
-<video controls width="100%" height="100%">
-  <source src="../../07.Σχέδια%20Μαθήματος/attachments/Massive%20Mexican%20Wave!%20-%20London%202012%20Olympic%20Stadium.mp4" type="video/mp4">
-</video>
+<div class="yt-wrapper">
+<iframe src="https://www.youtube.com/embed/sZPLXMDSGcI" title="Mexican Wave" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+</div>
 </div></script></section><section  data-markdown><script type="text/template"><!-- .slide: class="has-dark-background drop" template="" data-background-color="#283b95" -->
 <div class="" style="position: absolute; left: 0px; top: 0px; height: 1200px; width: 1920px; min-height: 1200px; display: flex; flex-direction: column; align-items: center; justify-content: center" absolute="true">
 
@@ -251,9 +165,9 @@
 </div></script></section><section  data-markdown><script type="text/template"><!-- .slide: class="has-dark-background drop" template="" data-background-color="#283b95" -->
 <div class="" style="position: absolute; left: 0px; top: 0px; height: 1200px; width: 1920px; min-height: 1200px; display: flex; flex-direction: column; align-items: center; justify-content: center" absolute="true">
 
-<video controls width="33%" height="100%">
-  <source src="../../07.Σχέδια Μαθήματος/attachments/Transverse Vs Longitudinal Waves.mp4" type="video/mp4">
-</video>
+## Εγκάρσια και Διαμήκη σε Slinky
+
+<iframe width="537" height="954" src="https://www.youtube.com/embed/1ns7YZTgNjQ" title="Εγκάρσια και Διαμήκη Κύματα με ελατήριο Slinky (2)" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
 </div></script></section><section  data-markdown><script type="text/template"><!-- .slide: class="has-dark-background drop" template="" data-background-color="#283b95" -->
 <div class="" style="position: absolute; left: 0px; top: 0px; height: 1200px; width: 1920px; min-height: 1200px; display: flex; flex-direction: column; align-items: center; justify-content: center" absolute="true">
 
@@ -286,6 +200,20 @@
 - Στην επιφάνεια του νερού, τα πράγματα είναι πιο περίπλοκα. Τα σωματίδια κινούνται **και πάνω - κάτω ΚΑΙ μπρος-πίσω.**
 - Το αποτέλεσμα; Τα σωματίδια διαγράφουν **κυκλικές τροχιές**.
 - Είναι ένας συνδυασμός εγκάρσιου και διαμήκους κύματος.
+</div></script></section><section  data-markdown><script type="text/template"><!-- .slide: class="has-dark-background drop" template="" data-background-color="#283b95" -->
+<div class="" style="position: absolute; left: 0px; top: 0px; height: 1200px; width: 1920px; min-height: 1200px; display: flex; flex-direction: column; align-items: center; justify-content: center" absolute="true">
+
+## Επιφανειακά Κύματα
+
+<div class="yt-wrapper">
+  <iframe 
+    src="https://www.youtube.com/embed/Ge1f1eqw9JE?si=L4yFOvfJI-o514eE" 
+    title="YouTube video player" 
+    frameborder="0" 
+    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+    allowfullscreen>
+  </iframe>
+</div>
 </div></script></section><section  data-markdown><script type="text/template"><!-- .slide: class="has-dark-background drop" template="" data-background-color="#283b95" -->
 <div class="" style="position: absolute; left: 0px; top: 0px; height: 1200px; width: 1920px; min-height: 1200px; display: flex; flex-direction: column; align-items: center; justify-content: center" absolute="true">
 
@@ -401,6 +329,7 @@ A premium educational illustration in National Geographic style symbolizing the 
     <script src="plugin/customcontrols/plugin.js"></script>
     <script src="plugin/elapsed-time-bar/elapsed-time-bar.js"></script>
 
+    <script src="NOESE/Attachments/rotate-overlay.js"></script>
 
     <script>
         function extend() {
